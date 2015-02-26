@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <Cordova/CDVPlugin.h>
-#import <AudioToolbox/AudioServices.h>
-#import <MediaPlayer/MediaPlayer.h>
 
 #import "DTDevices.h"
 
