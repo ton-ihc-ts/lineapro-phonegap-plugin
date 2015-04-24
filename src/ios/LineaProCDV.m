@@ -75,6 +75,7 @@
 
 - (void)setPassThroughSync:(CDVInvokedUrlCommand *)command
 {
+    NSLog(@"setPassThroughSync");
     [dtdev setPassThroughSync:true error:nil];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:1];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -82,6 +83,7 @@
 
 - (void)unsetPassThroughSync:(CDVInvokedUrlCommand *)command
 {
+    NSLog(@"unsetPassThroughSync");
     [dtdev setPassThroughSync:false error:nil];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:0];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
