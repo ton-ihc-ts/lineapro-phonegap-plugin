@@ -95,8 +95,8 @@ LineaProCDV.prototype.onBarcodeData = function(rawCodesArr, scanId, dob, state, 
     this.barcodeCallback(data);
 };
 
-LineaProCDV.prototype.onBluetoothDeviceConnected = function(address) {
-  this.btConnectedCallback(address);
+LineaProCDV.prototype.onBluetoothDeviceConnected = function(address, error) {
+  this.btConnectedCallback(address, error);
 }
 
 LineaProCDV.prototype.onBluetoothDeviceDisconnected = function(address) {

@@ -143,6 +143,9 @@
     if (error) {
         status = false;
         NSLog(@"btConnect Error: %@", error.description);
+        
+        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceConnected(null, '%@');", error.description];
+        [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
     } else {
         status = true;
         NSLog(@"btConnect Success!");
