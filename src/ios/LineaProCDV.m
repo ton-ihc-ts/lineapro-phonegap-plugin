@@ -17,46 +17,46 @@
 @implementation LineaProCDV
 
 -(void) scannerConect:(NSString*)num {
-    
+
     NSString *jsStatement = [NSString stringWithFormat:@"reportConnectionStatus('%@');", num];
     [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
-    
+
 }
 
 -(void) scannerBattery:(NSString*)num {
-    
+
     int percent;
     float voltage;
-    
+
 	if([dtdev getBatteryCapacity:&percent voltage:&voltage error:nil])
     {
         NSString *status = [NSString stringWithFormat:@"Bat: %.2fv, %d%%",voltage,percent];
-        
+
         // send to web view
         NSString *jsStatement = [NSString stringWithFormat:@"reportBatteryStatus('%@');", status];
         [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
-        
+
     }
 }
 
 -(void) scanPaymentCard:(NSString*)num {
-    
+
     NSString *jsStatement = [NSString stringWithFormat:@"onSuccessScanPaymentCard('%@');", num];
     [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
 	[self.viewController dismissViewControllerAnimated:YES completion:nil];
-    
+
 }
 
 - (void)initDT:(CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    
+
     if (!dtdev) {
         dtdev = [DTDevices sharedDevice];
         [dtdev addDelegate:self];
         [dtdev connect];
     }
-    
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -73,6 +73,14 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)btDiscoverDevices:(CDVInvokedUrlCommand *)command
+{
+    NSLog(@"btDisoverDevices");
+    
+    CDVPluginResult* pluginResult = [dtdev btDiscoverDevices:10 maxTime:8 codTypes:0 error:nil];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 - (void)stopBarcode:(CDVInvokedUrlCommand *)command
 {
     [dtdev barcodeStopScan:nil];
@@ -82,7 +90,7 @@
 
 - (void)connectionState: (int)state {
     NSLog(@"connectionState: %d", state);
-    
+
     switch (state) {
 		case CONN_DISCONNECTED:
 		case CONN_CONNECTING:
@@ -93,7 +101,7 @@
 			break;
 		}
 	}
-    
+
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.connectionChanged(%d);", state];
     [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
@@ -239,7 +247,7 @@
     NSString* substrLicense = @"DAQ";
     NSString* license = [LineaProCDV getPDF417ValueByCode:codesArr code: substrLicense];
     NSLog(@"%@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@", dateBirth, name, lastName, eye, state, city, height, weight, gender, hair, expires, license);
-    
+
     NSString* rawCodesArrJSString = [LineaProCDV generateStringForArrayEvaluationInJS:codesArr];
     //LineaProCDV.onBarcodeData(scanId, dob, state, city, expires, gender, height, weight, hair, eye)
     NSString* retStr = [ NSString stringWithFormat:@"var rawCodesArr = %@; LineaProCDV.onBarcodeData(rawCodesArr, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@');", rawCodesArrJSString, license, dateBirth, state, city, expires, gender, height, weight, hair, eye, name, lastName];
