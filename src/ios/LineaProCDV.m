@@ -102,16 +102,19 @@
     NSError *error=nil;
     NSLog(@"btDiscoverDevices");
 
-    bool btDevices = [dtdev btDiscoverDevicesInBackground:10 maxTime:8 codTypes:0 error:&error];
+    NSArray* btDevices = [dtdev btDiscoverDevices:10 maxTime:8 codTypes:0 error:&error];
 
-    if (!btDevices)
+    if (error) {
       NSLog(@"discoverDevices Error: %@", error.description);
+        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', '%@');", false, error.description];
+      [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    } else {
+        NSString* rawCodesArrJSString = [LineaProCDV generateStringForArrayEvaluationInJS:btDevices];
+        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', %@);", true, rawCodesArrJSString];
+        [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    }
 
-    NSString *jsStatement = [NSString stringWithFormat:@"discoverDevices('%@');", btDevices];
-    [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
-  	[self.viewController dismissViewControllerAnimated:YES completion:nil];
-
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:btDevices];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:true];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -290,13 +293,13 @@
 
 - (void) bluetoothDeviceConnected: (NSString *) address {
     NSLog(@"bluetoothDeviceConnected: address - %@", address);
-    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceConnected('%@', '%@');", address];
+    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceConnected('%@');", address];
     [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceDisconnected: (NSString *) address {
     NSLog(@"bluetoothDeviceDisconnected: address - %@", address);
-    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDisconnected('%@', '%@');", address];
+    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDisconnected('%@');", address];
     [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
