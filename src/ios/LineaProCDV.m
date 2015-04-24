@@ -100,20 +100,31 @@
 - (void)discoverDevices:(CDVInvokedUrlCommand *)command
 {
     NSError *error=nil;
+    NSError *error2=nil;
+
     NSLog(@"btDiscoverDevices");
 
     NSArray* btDevices = [dtdev btDiscoverDevices:10 maxTime:8 codTypes:0 error:&error];
 
-    if (error) {
-      NSLog(@"discoverDevices Error: %@", error.description);
-        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', '%@');", false, error.description];
-      [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
-    } else {
-        NSString* rawCodesArrJSString = [LineaProCDV generateStringForArrayEvaluationInJS:btDevices];
-        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', %@);", true, rawCodesArrJSString];
-        [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
-    }
 
+    if (error) {
+        NSLog(@"discoverDevices Error: %@", error.description);
+        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', {}, '%@');", false, error.description];
+        [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    } else {
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:btDevices options:NSJSONWritingPrettyPrinted error:&error2];
+
+        if (!jsonData) {
+            NSLog(@"Got an error: %@", error2);
+        } else {
+
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+            NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', %@);", true, jsonString];
+            [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+        }
+
+    }
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:true];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -300,13 +311,13 @@
 - (void) bluetoothDeviceDisconnected: (NSString *) address {
     NSLog(@"bluetoothDeviceDisconnected: address - %@", address);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDisconnected('%@');", address];
-    //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceDiscovered: (NSString *) address name:(NSString *) name {
     NSLog(@"bluetoothDeviceDiscovered: address - %@, name - @name", name);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDiscovered('%@', '%@');", address, name];
-    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 - (NSString *) bluetoothDevicePINCodeRequired: (NSString *) address name:(NSString *) name {
     NSLog(@"bluetoothDevicePINCodeRequired: address - %@, name - @name", name);

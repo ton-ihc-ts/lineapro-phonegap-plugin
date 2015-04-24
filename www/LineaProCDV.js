@@ -6,19 +6,31 @@ var argscheck = require('cordova/argscheck'),
 
  function LineaProCDV() {
     this.results = [];
+
     this.connCallback = null;
     this.errorCallback = null;
     this.cancelCallback = null;
     this.cardDataCallback = null;
     this.barcodeCallback = null;
 
+    this.btDiscoveryCompleteCallback = null;
+    this.btConnectedCallback = null;
+    this.btDisconnectedCallback = null;
+
+
 }
 
-LineaProCDV.prototype.initDT = function(connectionCallback, cardCallback, barcCallback, cancelCallback, errorCallback) {
+LineaProCDV.prototype.initDT = function(connectionCallback, cardCallback, barcCallback, cancelCallback, errorCallback, btDiscCallback, btConnCallback, btDisconnCallback) {
     this.results = [];
+
     this.connCallback = connectionCallback;
     this.cardDataCallback = cardCallback;
     this.barcodeCallback = barcCallback;
+
+    this.btDiscoveryCompleteCallback = btDiscCallback;
+    this.btConnectedCallback = btConnCallback;
+    this.btDisconnectedCallback = btDisconnCallback;
+
     exec(null, errorCallback, "LineaProCDV", "initDT", []);
     //alert("LineaProCDV");
 };
@@ -72,26 +84,15 @@ LineaProCDV.prototype.onBarcodeData = function(rawCodesArr, scanId, dob, state, 
 };
 
 LineaProCDV.prototype.onBluetoothDeviceConnected = function(address) {
-  console.log("onBluetoothDeviceConnected:",address);
-  alert("onBluetoothDeviceConnected: "+address);
+  this.btConnectedCallback(address);
 }
 
 LineaProCDV.prototype.onBluetoothDeviceDisconnected = function(address) {
-  console.log("onBluetoothDeviceDisconnected:",address);
-  alert("onBluetoothDeviceDisconnected: "+address);
+  this.btDisconnectedCallback(address);
 }
 
-LineaProCDV.prototype.onBluetoothDeviceDiscovered = function(address, name) {
-  console.log("onBluetoothDeviceDiscovered:",address, name);
-  alert("onBluetoothDeviceDiscovered: "+address+" "+name);
-}
-
-LineaProCDV.prototype.onBluetoothDiscoverComplete = function(success, devices) {
-  console.log("onBluetoothDiscoverComplete:",success);
-  if (device)
-    alert("onBluetoothDiscoverComplete: "+success+" "+JSON.stringify(devices));
-  else
-    alert("onBluetoothDiscoverComplete: "+success);
+LineaProCDV.prototype.onBluetoothDiscoverComplete = function(success, devices, error) {
+  this.btDiscoveryCompleteCallback(success, devices, error);
 }
 
 module.exports = new LineaProCDV();
