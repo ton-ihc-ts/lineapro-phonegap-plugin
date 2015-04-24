@@ -16,10 +16,11 @@ var argscheck = require('cordova/argscheck'),
     this.btDiscoveryCompleteCallback = null;
     this.btConnectedCallback = null;
     this.btDisconnectedCallback = null;
+    this.btGetDeviceNameCallback = null;
 
 }
 
-LineaProCDV.prototype.initDT = function(connectionCallback, cardCallback, barcCallback, cancelCallback, errorCallback, btDiscCallback, btConnCallback, btDisconnCallback) {
+LineaProCDV.prototype.initDT = function(connectionCallback, cardCallback, barcCallback, cancelCallback, errorCallback, btDiscCallback, btConnCallback, btDisconnCallback, btGetDeviceNameCallback) {
     this.results = [];
 
     this.connCallback = connectionCallback;
@@ -67,6 +68,10 @@ LineaProCDV.prototype.btConnect = function(address) {
     exec(null, null, "LineaProCDV", "btConnect", [address]);
 }
 
+LineaProCDV.prototype.btWrite = function(data) {
+    exec(null, null, "LineaProCDV", "btWrite", [data]);
+}
+
 LineaProCDV.prototype.onBarcodeData = function(rawCodesArr, scanId, dob, state, city, expires, gender, height, weight, hair, eye, firstName, lastName) {
     var data = {
                rawCodesArr: rawCodesArr,
@@ -96,6 +101,10 @@ LineaProCDV.prototype.onBluetoothDeviceDisconnected = function(address) {
 
 LineaProCDV.prototype.onBluetoothDiscoverComplete = function(success, devices, error) {
   this.btDiscoveryCompleteCallback( (success===1) , devices, error);
+}
+
+LineaProCDV.prototype.onBluetoothGetDeviceName = function(address, name) {
+  this.btGetDeviceNameCallback(address, name);
 }
 
 module.exports = new LineaProCDV();

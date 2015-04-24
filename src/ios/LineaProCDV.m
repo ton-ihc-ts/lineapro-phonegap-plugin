@@ -152,6 +152,77 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)btDisconnect:(CDVInvokedUrlCommand *)command
+{;
+    NSError *error=nil;
+
+    NSString* address = [command.arguments objectAtIndex:0];
+    NSLog(@"btDisconnect: %@", address);
+    BOOL status;
+
+    [dtdev btDisconnect:address error:&error];
+
+    if (error) {
+        status = false;
+        NSLog(@"btDisconnect Error: %@", error.description);
+    } else {
+        status = true;
+        NSLog(@"btDisconnect Success!");
+    }
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)btGetDeviceName:(CDVInvokedUrlCommand *)command
+{;
+    NSError *error=nil;
+
+    NSString* address = [command.arguments objectAtIndex:0];
+    NSLog(@"btGetDeviceName: %@", address);
+    BOOL status;
+
+    NSString* name = [dtdev btGetDeviceName:address error:&error];
+
+    if (error) {
+        status = false;
+        NSLog(@"btGetDeviceName Error: %@", error.description);
+    } else {
+        status = true;
+        NSLog(@"btGetDeviceName Success! %@", name);
+
+        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothGetDeviceName('%@', '%@');", address, name];
+        [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    }
+
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)btWrite:(CDVInvokedUrlCommand *)command
+{;
+    NSError *error=nil;
+
+    NSString* data = [command.arguments objectAtIndex:0];
+    NSLog(@"btWrite: %@", data);
+    BOOL status;
+
+    [dtdev btWrite:data error:&error];
+
+    if (error) {
+        status = false;
+        NSLog(@"btWrite Error: %@", error.description);
+    } else {
+        status = true;
+        NSLog(@"btWrite Success!");
+    }
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+
 - (void)stopBarcode:(CDVInvokedUrlCommand *)command
 {
     [dtdev barcodeStopScan:nil];

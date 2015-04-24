@@ -25,6 +25,11 @@
 - (void)unsetPassThroughSync:(CDVInvokedUrlCommand*)command;
 
 - (void)discoverDevices:(CDVInvokedUrlCommand*)command;
+
 - (void)btConnect:(CDVInvokedUrlCommand*)command;
+- (void)btDisconnect:(CDVInvokedUrlCommand*)command;
+
+- (void)btGetDeviceName:(CDVInvokedUrlCommand*)command;
+- (void)btWrite:(CDVInvokedUrlCommand*)command;
 
 @end
