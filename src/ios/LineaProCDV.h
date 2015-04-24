@@ -30,6 +30,8 @@
 - (void)btDisconnect:(CDVInvokedUrlCommand*)command;
 
 - (void)btGetDeviceName:(CDVInvokedUrlCommand*)command;
+
 - (void)btWrite:(CDVInvokedUrlCommand*)command;
+- (void)prnPrintText:(CDVInvokedUrlCommand*)command;
 
 @end

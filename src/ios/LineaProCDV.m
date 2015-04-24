@@ -138,7 +138,7 @@
     NSLog(@"btConnect: %@", address);
     BOOL status;
 
-    [dtdev btConnect:address pin:nil error:&error];
+    [dtdev btConnectSupportedDevice:address pin:nil error:&error];
 
     if (error) {
         status = false;
@@ -195,7 +195,6 @@
         [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
     }
 
-
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -222,6 +221,27 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)prnPrintText:(CDVInvokedUrlCommand *)command
+{;
+    NSError *error=nil;
+
+    NSString* data = [command.arguments objectAtIndex:0];
+    NSLog(@"prnPrintText: %@", data);
+    BOOL status;
+
+    [dtdev prnPrintText:data error:&error];
+
+    if (error) {
+        status = false;
+        NSLog(@"prnPrintText Error: %@", error.description);
+    } else {
+        status = true;
+        NSLog(@"prnPrintText Success!");
+    }
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
 - (void)stopBarcode:(CDVInvokedUrlCommand *)command
 {
