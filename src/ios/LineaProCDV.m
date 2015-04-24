@@ -130,6 +130,11 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)btConnect:(CDVInvokedUrlCommand *)command
+{
+    NSLog(@"btConnect: %@", command);  
+}
+
 - (void)stopBarcode:(CDVInvokedUrlCommand *)command
 {
     [dtdev barcodeStopScan:nil];

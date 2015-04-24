@@ -51,7 +51,7 @@ LineaProCDV.prototype.onMagneticCardData = function(track1, track2, track3) {
     //this.barcodeStart();
 };
 
-LineaProCDV.prototype.discoverDevices = function(status) {
+LineaProCDV.prototype.discoverDevices = function() {
     exec(null, null, "LineaProCDV", "discoverDevices", []);
 }
 
@@ -61,6 +61,10 @@ LineaProCDV.prototype.setPassThroughSync = function() {
 
 LineaProCDV.prototype.unsetPassThroughSync = function() {
     exec(null, null, "LineaProCDV", "unsetPassThroughSync", []);
+}
+
+LineaProCDV.prototype.btConnect = function(address) {
+    exec(null, null, "LineaProCDV", "btConnect", address);
 }
 
 LineaProCDV.prototype.onBarcodeData = function(rawCodesArr, scanId, dob, state, city, expires, gender, height, weight, hair, eye, firstName, lastName) {
