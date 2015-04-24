@@ -290,14 +290,20 @@
 
 - (void) bluetoothDeviceConnected: (NSString *) address {
     NSLog(@"bluetoothDeviceConnected: address - %@", address);
+    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceConnected('%@', '%@');", address];
+    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceDisconnected: (NSString *) address {
     NSLog(@"bluetoothDeviceDisconnected: address - %@", address);
+    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDisconnected('%@', '%@');", address];
+    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceDiscovered: (NSString *) address name:(NSString *) name {
     NSLog(@"bluetoothDeviceDiscovered: address - %@, name - @name", name);
+    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDiscovered('%@', '%@');", address, name];
+    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 - (NSString *) bluetoothDevicePINCodeRequired: (NSString *) address name:(NSString *) name {
     NSLog(@"bluetoothDevicePINCodeRequired: address - %@, name - @name", name);
@@ -311,6 +317,8 @@
 
 - (void) bluetoothDiscoverComplete: (BOOL) success {
     NSLog(@"bluetoothDiscoverComplete: success - %d", success);
+    NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i');", success];
+    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 @end

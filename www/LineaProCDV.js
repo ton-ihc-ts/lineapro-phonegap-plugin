@@ -14,7 +14,6 @@ var argscheck = require('cordova/argscheck'),
 
 }
 
-
 LineaProCDV.prototype.initDT = function(connectionCallback, cardCallback, barcCallback, cancelCallback, errorCallback) {
     this.results = [];
     this.connCallback = connectionCallback;
@@ -38,7 +37,7 @@ LineaProCDV.prototype.connectionChanged = function(state) {
 
 LineaProCDV.prototype.onMagneticCardData = function(track1, track2, track3) {
     this.cardDataCallback(track1 + track2 + track3);
-    this.barcodeStart();
+    //this.barcodeStart();
 };
 
 LineaProCDV.prototype.discoverDevices = function(status) {
@@ -72,5 +71,24 @@ LineaProCDV.prototype.onBarcodeData = function(rawCodesArr, scanId, dob, state, 
     this.barcodeCallback(data);
 };
 
+LineaProCDV.prototype.onBluetoothDeviceConnected = function(address) {
+  console.log("onBluetoothDeviceConnected:",address);
+  alert("onBluetoothDeviceConnected: "+address);
+}
+
+LineaProCDV.prototype.onBluetoothDeviceDisconnected = function(address) {
+  console.log("onBluetoothDeviceDisconnected:",address);
+  alert("onBluetoothDeviceDisconnected: "+address);
+}
+
+LineaProCDV.prototype.onBluetoothDeviceDiscovered = function(address, name) {
+  console.log("onBluetoothDeviceDiscovered:",address, name);
+  alert("onBluetoothDeviceDiscovered: "+address+" "+name);
+}
+
+LineaProCDV.prototype.onBluetoothDiscoverComplete = function(success) {
+  console.log("onBluetoothDiscoverComplete:",success);
+  alert("onBluetoothDiscoverComplete: "+success);
+}
 
 module.exports = new LineaProCDV();
