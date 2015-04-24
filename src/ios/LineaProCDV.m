@@ -131,8 +131,25 @@
 }
 
 - (void)btConnect:(CDVInvokedUrlCommand *)command
-{
-    NSLog(@"btConnect: %@", command);
+{;
+    NSError *error=nil;
+
+    NSString* address = [command.arguments objectAtIndex:0];
+    NSLog(@"btConnect: %@", address);
+    BOOL status;
+
+    [dtdev btConnect:address pin:nil error:&error];
+
+    if (error) {
+        status = false;
+        NSLog(@"btConnect Error: %@", error.description);
+    } else {
+        status = true;
+        NSLog(@"btConnect Success!");
+    }
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)stopBarcode:(CDVInvokedUrlCommand *)command
