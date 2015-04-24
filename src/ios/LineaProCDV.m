@@ -73,11 +73,29 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)setPassThroughSync:(CDVInvokedUrlCommand *)command
+{
+    [dtdev setPassThroughSync:true error:nil];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:1];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)unsetPassThroughSync:(CDVInvokedUrlCommand *)command
+{
+    [dtdev setPassThroughSync:false error:nil];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:0];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 - (void)discoverDevices:(CDVInvokedUrlCommand *)command
 {
-    NSLog(@"btDisoverDevices");
-    
-    CDVPluginResult* pluginResult = [dtdev btDiscoverDevices:10 maxTime:8 codTypes:0 error:nil];
+    NSLog(@"btDiscoverDevices");
+
+    bool btDevices = [dtdev btDiscoverDevicesInBackground:10 maxTime:8 codTypes:0 error:nil];
+
+    NSLog(@"%d", btDevices);
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:5];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
@@ -278,7 +296,5 @@
 - (void) bluetoothDiscoverComplete: (BOOL) success {
     NSLog(@"bluetoothDiscoverComplete: success - %d", success);
 }
-
-
 
 @end

@@ -20,6 +20,10 @@
 - (void)getConnectionStatus:(CDVInvokedUrlCommand*)command;
 - (void)startBarcode:(CDVInvokedUrlCommand*)command;
 - (void)stopBarcode:(CDVInvokedUrlCommand*)command;
+
 - (void)discoverDevices:(CDVInvokedUrlCommand*)command;
+
+- (void)setPassThroughSync:(CDVInvokedUrlCommand*)command;
+- (void)unsetPassThroughSync:(CDVInvokedUrlCommand*)command;
 
 @end
