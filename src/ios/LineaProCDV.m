@@ -73,7 +73,7 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void)btDiscoverDevices:(CDVInvokedUrlCommand *)command
+- (void)discoverDevices:(CDVInvokedUrlCommand *)command
 {
     NSLog(@"btDisoverDevices");
     
