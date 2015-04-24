@@ -41,7 +41,7 @@ LineaProCDV.prototype.onMagneticCardData = function(track1, track2, track3) {
     this.barcodeStart();
 };
 
-LineaProCDV.prototype.discoverDevices = function() {
+LineaProCDV.prototype.discoverDevices = function(status) {
     exec(null, null, "LineaProCDV", "discoverDevices", []);
 }
 

@@ -106,10 +106,12 @@
 
     if (!btDevices)
       NSLog(@"discoverDevices Error: %@", error.description);
-      
-    NSLog(@"%d", btDevices);
 
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:5];
+    NSString *jsStatement = [NSString stringWithFormat:@"discoverDevices('%@');", btDevices];
+    [self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
+  	[self.viewController dismissViewControllerAnimated:YES completion:nil];
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:btDevices];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
