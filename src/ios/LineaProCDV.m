@@ -300,7 +300,7 @@
 - (void) bluetoothDeviceDisconnected: (NSString *) address {
     NSLog(@"bluetoothDeviceDisconnected: address - %@", address);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDisconnected('%@');", address];
-    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceDiscovered: (NSString *) address name:(NSString *) name {

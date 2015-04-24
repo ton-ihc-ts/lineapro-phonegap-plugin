@@ -89,7 +89,7 @@ LineaProCDV.prototype.onBluetoothDeviceDiscovered = function(address, name) {
 LineaProCDV.prototype.onBluetoothDiscoverComplete = function(success, devices) {
   console.log("onBluetoothDiscoverComplete:",success);
   if (device)
-    alert("onBluetoothDiscoverComplete: "+success+" "+devices.length);
+    alert("onBluetoothDiscoverComplete: "+success+" "+JSON.stringify(devices));
   else
     alert("onBluetoothDiscoverComplete: "+success);
 }
