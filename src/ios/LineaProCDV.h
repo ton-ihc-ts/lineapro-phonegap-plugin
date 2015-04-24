@@ -33,5 +33,6 @@
 
 - (void)btWrite:(CDVInvokedUrlCommand*)command;
 - (void)prnPrintText:(CDVInvokedUrlCommand*)command;
+- (void)prnPrintZPL:(CDVInvokedUrlCommand*)command;
 
 @end

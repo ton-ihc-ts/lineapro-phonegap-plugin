@@ -143,7 +143,7 @@
     if (error) {
         status = false;
         NSLog(@"btConnect Error: %@", error.description);
-        
+
         NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceConnected(null, '%@');", error.description];
         [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
     } else {
@@ -240,6 +240,30 @@
     } else {
         status = true;
         NSLog(@"prnPrintText Success!");
+    }
+
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)prnPrintZPL:(CDVInvokedUrlCommand *)command
+{;
+    NSError *error=nil;
+
+    NSString* str = [command.arguments objectAtIndex:0];
+    NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSLog(@"prnPrintZPL: %@", str);
+    BOOL status;
+
+    [dtdev prnWriteDataToChannel:50 data:data error:&error];
+
+    if (error) {
+        status = false;
+        NSLog(@"prnPrintZPL Error: %@", error.description);
+    } else {
+        status = true;
+        NSLog(@"prnPrintZPL Success!");
     }
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:status];

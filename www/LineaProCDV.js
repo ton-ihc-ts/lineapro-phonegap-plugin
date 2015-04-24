@@ -76,6 +76,10 @@ LineaProCDV.prototype.prnPrintText = function(data) {
     exec(null, null, "LineaProCDV", "prnPrintText", [data]);
 }
 
+LineaProCDV.prototype.prnPrintZPL = function(data) {
+    exec(null, null, "LineaProCDV", "prnPrintZPL", [data]);
+}
+
 LineaProCDV.prototype.onBarcodeData = function(rawCodesArr, scanId, dob, state, city, expires, gender, height, weight, hair, eye, firstName, lastName) {
     var data = {
                rawCodesArr: rawCodesArr,
