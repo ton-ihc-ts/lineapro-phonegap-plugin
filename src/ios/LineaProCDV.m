@@ -132,7 +132,7 @@
 
 - (void)btConnect:(CDVInvokedUrlCommand *)command
 {
-    NSLog(@"btConnect: %@", command);  
+    NSLog(@"btConnect: %@", command);
 }
 
 - (void)stopBarcode:(CDVInvokedUrlCommand *)command

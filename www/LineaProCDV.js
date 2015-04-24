@@ -64,7 +64,7 @@ LineaProCDV.prototype.unsetPassThroughSync = function() {
 }
 
 LineaProCDV.prototype.btConnect = function(address) {
-    exec(null, null, "LineaProCDV", "btConnect", address);
+    exec(null, null, "LineaProCDV", "btConnect", [address]);
 }
 
 LineaProCDV.prototype.onBarcodeData = function(rawCodesArr, scanId, dob, state, city, expires, gender, height, weight, hair, eye, firstName, lastName) {
