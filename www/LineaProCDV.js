@@ -17,7 +17,6 @@ var argscheck = require('cordova/argscheck'),
     this.btConnectedCallback = null;
     this.btDisconnectedCallback = null;
 
-
 }
 
 LineaProCDV.prototype.initDT = function(connectionCallback, cardCallback, barcCallback, cancelCallback, errorCallback, btDiscCallback, btConnCallback, btDisconnCallback) {
@@ -92,7 +91,7 @@ LineaProCDV.prototype.onBluetoothDeviceDisconnected = function(address) {
 }
 
 LineaProCDV.prototype.onBluetoothDiscoverComplete = function(success, devices, error) {
-  this.btDiscoveryCompleteCallback(success, devices, error);
+  this.btDiscoveryCompleteCallback( (success===1) , devices, error);
 }
 
 module.exports = new LineaProCDV();

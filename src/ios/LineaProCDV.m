@@ -109,20 +109,21 @@
 
     if (error) {
         NSLog(@"discoverDevices Error: %@", error.description);
-        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', {}, '%@');", false, error.description];
+        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete(%i, [], '%@');", false, error.description];
         [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
     } else {
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:btDevices options:NSJSONWritingPrettyPrinted error:&error2];
-
+        NSString *jsonString;
         if (!jsonData) {
-            NSLog(@"Got an error: %@", error2);
+          NSLog(@"Got an error: %@", error2);
+          jsonString = @"[]"
         } else {
-
-            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-
-            NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i', %@);", true, jsonString];
-            [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+          jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
+
+        NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete(%i, %@, null);", true, jsonString];
+        [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+
 
     }
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:true];
