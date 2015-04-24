@@ -99,10 +99,14 @@
 
 - (void)discoverDevices:(CDVInvokedUrlCommand *)command
 {
+    NSError *error=nil;
     NSLog(@"btDiscoverDevices");
 
-    bool btDevices = [dtdev btDiscoverDevicesInBackground:10 maxTime:8 codTypes:0 error:nil];
+    bool btDevices = [dtdev btDiscoverDevicesInBackground:10 maxTime:8 codTypes:0 error:&error];
 
+    if (!btDevices)
+      NSLog(@"discoverDevices Error: %@", error.description);
+      
     NSLog(@"%d", btDevices);
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:5];
