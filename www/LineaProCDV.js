@@ -68,6 +68,10 @@ LineaProCDV.prototype.btConnect = function(address) {
     exec(null, null, "LineaProCDV", "btConnect", [address]);
 }
 
+LineaProCDV.prototype.btDisconnect = function(address) {
+    exec(null, null, "LineaProCDV", "btDisconnect", [address]);
+}
+
 LineaProCDV.prototype.btWrite = function(data) {
     exec(null, null, "LineaProCDV", "btWrite", [data]);
 }
