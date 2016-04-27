@@ -18,7 +18,7 @@
 -(void) scannerConect:(NSString*)num {
 
     NSString *jsStatement = [NSString stringWithFormat:@"reportConnectionStatus('%@');", num];
-    [webView evaluateJavaScript:jsStatement completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:jsStatement completionHandler:nil];
     //[self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
 
 }
@@ -34,7 +34,7 @@
 
         // send to web view
         NSString *jsStatement = [NSString stringWithFormat:@"reportBatteryStatus('%@');", status];
-        [webView evaluateJavaScript:jsStatement completionHandler:nil];
+        [self.webViewEngine evaluateJavaScript:jsStatement completionHandler:nil];
         //[self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
 
     }
@@ -43,7 +43,7 @@
 -(void) scanPaymentCard:(NSString*)num {
 
     NSString *jsStatement = [NSString stringWithFormat:@"onSuccessScanPaymentCard('%@');", num];
-    [webView evaluateJavaScript:jsStatement completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:jsStatement completionHandler:nil];
     //[self.webView stringByEvaluatingJavaScriptFromString:jsStatement];
 	  //[self.viewController dismissViewControllerAnimated:YES completion:nil];
 
@@ -125,7 +125,7 @@
         }
 
         NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete(%i, %@, null);", true, jsonString];
-        [webView evaluateJavaScript:retStr completionHandler:nil];
+        [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
         //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 
 
@@ -149,7 +149,7 @@
         NSLog(@"btConnect Error: %@", error.description);
 
         NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceConnected(null, '%@');", error.description];
-        [webView evaluateJavaScript:retStr completionHandler:nil];
+        [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
         //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
     } else {
         status = true;
@@ -200,7 +200,7 @@
         NSLog(@"btGetDeviceName Success! %@", name);
 
         NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothGetDeviceName('%@', '%@');", address, name];
-        [webView evaluateJavaScript:retStr completionHandler:nil];
+        [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
         //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
     }
 
@@ -298,7 +298,7 @@
 	}
 
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.connectionChanged(%d);", state];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
@@ -326,7 +326,7 @@
         NSLog(@"magneticCardData (full info): accountNumber - %@, cardholderName - %@, expirationYear - %@, expirationMonth - %@, serviceCode - %@, discretionaryData - %@, firstName - %@, lastName - %@", [card objectForKey:@"accountNumber"], [card objectForKey:@"cardholderName"], [card objectForKey:@"expirationYear"], [card objectForKey:@"expirationMonth"], [card objectForKey:@"serviceCode"], [card objectForKey:@"discretionaryData"], [card objectForKey:@"firstName"], [card objectForKey:@"lastName"]);
     }
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onMagneticCardData('%@', '%@', '%@');", track1, track2, track3];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
@@ -382,14 +382,14 @@
 - (void) barcodeData: (NSString *) barcode type:(int) type {
     NSLog(@"barcodeData: barcode - %@, type - %@", barcode, [dtdev barcodeType2Text:type]);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBarcodeData('%@', '%@');", barcode, [dtdev barcodeType2Text:type]];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) barcodeNSData: (NSData *) barcode isotype:(NSString *) isotype {
     NSLog(@"barcodeNSData: barcode - %@, type - %@", [[NSString alloc] initWithData:barcode encoding:NSUTF8StringEncoding], isotype);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBarcodeData('%@', '%@');", [[NSString alloc] initWithData:barcode encoding:NSUTF8StringEncoding], isotype];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
@@ -450,28 +450,28 @@
     NSString* rawCodesArrJSString = [LineaProCDV generateStringForArrayEvaluationInJS:codesArr];
     //LineaProCDV.onBarcodeData(scanId, dob, state, city, expires, gender, height, weight, hair, eye)
     NSString* retStr = [ NSString stringWithFormat:@"var rawCodesArr = %@; LineaProCDV.onBarcodeData(rawCodesArr, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@');", rawCodesArrJSString, license, dateBirth, state, city, expires, gender, height, weight, hair, eye, name, lastName];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceConnected: (NSString *) address {
     NSLog(@"bluetoothDeviceConnected: address - %@", address);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceConnected('%@');", address];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceDisconnected: (NSString *) address {
     NSLog(@"bluetoothDeviceDisconnected: address - %@", address);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDisconnected('%@');", address];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 - (void) bluetoothDeviceDiscovered: (NSString *) address name:(NSString *) name {
     NSLog(@"bluetoothDeviceDiscovered: address - %@, name - @name", name);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDeviceDiscovered('%@', '%@');", address, name];
-    [webView evaluateJavaScript:retStr completionHandler:nil];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
     //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 - (NSString *) bluetoothDevicePINCodeRequired: (NSString *) address name:(NSString *) name {
@@ -487,7 +487,8 @@
 - (void) bluetoothDiscoverComplete: (BOOL) success {
     NSLog(@"bluetoothDiscoverComplete: success - %d", success);
     NSString* retStr = [ NSString stringWithFormat:@"LineaProCDV.onBluetoothDiscoverComplete('%i');", success];
-    [[super webView] stringByEvaluatingJavaScriptFromString:retStr];
+    [self.webViewEngine evaluateJavaScript:retStr completionHandler:nil];
+    //[[super webView] stringByEvaluatingJavaScriptFromString:retStr];
 }
 
 @end

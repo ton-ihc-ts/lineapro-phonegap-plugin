@@ -1,6 +1,6 @@
 {
   "name": "lineapro-phonegap-plugin",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "LineaProCDV updated to work with WKWebView for iOS",
   "cordova": {
     "id": "linea-pro-cdv",
