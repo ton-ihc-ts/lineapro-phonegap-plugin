@@ -1,9 +1,8 @@
 //
 //  LineaProCDV.h
 //
-//  Created by Timofey Tatarinov on 27.01.14.
-//  Citronium
-//  http://citronium.com
+//  Created by Aaron Thorp on 27.04.16.
+//  http://aaronthorp.com
 //
 
 #import <UIKit/UIKit.h>
