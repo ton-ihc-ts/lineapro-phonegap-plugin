@@ -3,14 +3,18 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:rim="http://www.blackberry.com/ns/widgets"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.thinksoftware.lineaprocdv"
-    version="0.1">
+    id="linea-pro-cdv"
+    version="0.2">
     <name>LineaProCDV</name>
     <description>LineaProCDV</description>
     <license>MIT</license>
     <keywords>lineapro,thinksoftware,aaronthorp</keywords>
     <repo>https://github.com/aaronthorp/lineapro-phonegap-plugin.git</repo>
     <issue></issue>
+
+    <engines>
+      <engine name="cordova-ios" version=">=1.7.1" />
+    </engines>
 
     <js-module src="www/LineaProCDV.js" name="LineaProCDV">
       <clobbers target="LineaProCDV" />
@@ -44,6 +48,5 @@
         </config-file>
 
     </platform>
-
 
 </plugin>

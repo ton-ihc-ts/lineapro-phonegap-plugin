@@ -1,0 +1,34 @@
+{
+  "name": "lineapro-phonegap-plugin",
+  "version": "0.2.0",
+  "description": "LineaProCDV",
+  "cordova": {
+    "id": "linea-pro-cdv",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronthorp/lineapro-phonegap-plugin.git"
+  },
+  "keywords": [
+    "lineapro",
+    "thinksoftware",
+    "aaronthorp",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova-ios",
+      "version": ">=1.7.1"
+    }
+  ],
+  "author": "Aaron Thorp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aaronthorp/lineapro-phonegap-plugin/issues"
+  },
+  "homepage": "https://github.com/aaronthorp/lineapro-phonegap-plugin#readme"
+}
